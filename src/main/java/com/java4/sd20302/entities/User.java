@@ -43,7 +43,7 @@ public class User {
 	private int role = 1;
 
 	@Column(name = "status", nullable = false)
-	private int status;
+	private int status = 1;
 
 	@OneToMany(mappedBy = "user")
 	private List<Video> videos;

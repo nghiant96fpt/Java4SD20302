@@ -56,6 +56,6 @@ public class Video {
 	@JoinColumn(name = "user_id")
 	private User user;
 
-	@OneToMany(mappedBy = "user")
-	private List<Favorite> video;
+	@OneToMany(mappedBy = "video")
+	private List<Favorite> favorites;
 }
