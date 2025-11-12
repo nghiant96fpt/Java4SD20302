@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +13,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import com.java4.sd20302.beans.LoginBean;
 import com.java4.sd20302.entities.User;
 import com.java4.sd20302.services.UserServices;
+import com.java4.sd20302.utils.Utils;
 
 @WebServlet("/login")
 public class LoginController extends HttpServlet {
@@ -35,21 +35,8 @@ public class LoginController extends HttpServlet {
 			if (bean.getErrors().isEmpty()) {
 //				Kiểm tra đăng nhập. nếu thành công lưu userId và role vào cookie 
 				User user = UserServices.login(bean.getUsernameOrEmail(), bean.getPassword());
-
-//				Lưu vào user_id và role vào cookie với thời hạn là 3 ngày 1h30
-
-//				long day = 60 * 60 * 24 * 3 + 60 * 60 * 6;
-
-				int day = 60 * 60 * 24 * (3 + (6 / 24));
-
-				Cookie cookieUserId = new Cookie("user_id", String.valueOf(user.getId()));
-				cookieUserId.setMaxAge(day);
-
-				Cookie cookieRole = new Cookie("role", String.valueOf(user.getRole()));
-				cookieRole.setMaxAge(day);
-
-				resp.addCookie(cookieUserId);
-				resp.addCookie(cookieRole);
+				Utils.setCookie(Utils.COOKIE_KEY_USER_ID, String.valueOf(user.getId()), resp);
+				Utils.setCookie(Utils.COOKIE_KEY_ROLE, String.valueOf(user.getRole()), resp);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
