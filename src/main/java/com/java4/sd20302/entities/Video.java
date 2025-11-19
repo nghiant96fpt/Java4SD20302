@@ -5,6 +5,7 @@ import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -48,14 +49,17 @@ public class Video {
 	@Column(name = "status", nullable = false)
 	private int status;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "cat_id")
 	private Category category;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	private User user;
 
-	@OneToMany(mappedBy = "video")
-	private List<Favorite> favorites;
+	@OneToMany(mappedBy = "video", fetch = FetchType.EAGER)
+	private List<Favourites> favorites;
+
+	@OneToMany(mappedBy = "video", fetch = FetchType.EAGER)
+	private List<Comment> comments;
 }

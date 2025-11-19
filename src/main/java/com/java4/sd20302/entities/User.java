@@ -4,6 +4,7 @@ import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -45,9 +46,9 @@ public class User {
 	@Column(name = "status", nullable = false)
 	private int status = 1;
 
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
 	private List<Video> videos;
 
-	@OneToMany(mappedBy = "user")
-	private List<Favorite> favorites;
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+	private List<Favourites> favorites;
 }
